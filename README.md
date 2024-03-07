@@ -4,8 +4,8 @@
 GDLC (Graph Deep Learning based on Centrality measures) is a novel framework designed to enhance Network Intrusion Detection Systems (NIDS). By leveraging centrality measures within graph-based deep learning models, GDLC aims to improve the detection rates and accuracy of identifying network intrusions, addressing the dynamic and sophisticated nature of cyber threats in IoT environments.
 
 
-<!-- ## General Scheme -->
-<!-- ![image](https://github.com/) -->
+## General Scheme
+![image](https://github.com/mtermos/GDLC/blob/main/General%20Scheme.png)
 
 ## Installation
 Ensure you have Python 3.x installed, then clone this repository and install the required dependencies:
