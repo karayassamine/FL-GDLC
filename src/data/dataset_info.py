@@ -4,6 +4,73 @@
 # type_3: Betweenness and PageRank + Local Modular Centralities + Comm Centrality + K-core + K-truss \\
 # type_4: Betweenness and PageRank + Global Modular Centralities + Modularity Vitality + K-core + K-truss \\
 
+'''
+
+This class constructor initializes an object to hold information about the dataset's structure and relevant features for analysis,
+including which columns are used for specific types of data, the format for timestamps, which columns to drop during preprocessing,
+and specific features or measures of interest for network analysis. This approach facilitates the management of dataset attributes
+and preprocessing steps, making it easier to apply consistent handling across different datasets or analysis scripts.
+
+At the end of the file we provided an array with the datasets we used in this experiment
+'''
+
+
+class DatasetInfo:
+    def __init__(
+            self,
+
+            # The name of the dataset.
+            name,
+
+            # Column name for source IP addresses in the dataset.
+            src_ip_col="Src IP",
+
+            # Column name for destination IP addresses.
+            dst_ip_col="Dst IP",
+
+            # Column name for identifying unique network flows.
+            flow_id_col="Flow ID",
+
+            # Column name for timestamps of network events.
+            timestamp_col="Timestamp",
+
+            # Format of the timestamp data.
+            timestamp_format="%d/%m/%Y %I:%M:%S %p",
+
+            # Column name for the label or outcome (e.g., "normal" or "attack").
+            label_col="Label",
+
+            # Column name for the class of attack or normal behavior.
+            class_col="Attack",
+
+            # Columns to be dropped from the dataset during preprocessing.
+            drop_columns=["Flow ID", "Src IP", "Dst IP",
+                          "Timestamp", "Src Port", "Dst Port", "Attack"],
+
+            # Columns to be dropped from the dataset during preprocessing.
+            weak_columns=[],
+
+            # List of complex network measures added to this dataset.
+            cn_measures=[],
+
+            # List of names used for these complex network.
+            network_features=[]
+    ):
+
+        self.name = name
+        self.src_ip_col = src_ip_col
+        self.dst_ip_col = dst_ip_col
+        self.flow_id_col = flow_id_col
+        self.timestamp_col = timestamp_col
+        self.timestamp_format = timestamp_format
+        self.label_col = label_col
+        self.class_col = class_col
+        self.drop_columns = drop_columns
+        self.weak_columns = weak_columns
+        self.cn_measures = cn_measures
+        self.network_features = network_features
+
+
 cn_measures_type_1 = ["betweenness", "local_betweenness", "degree", "local_degree",
                       "eigenvector", "closeness", "pagerank", "local_pagerank", "k_core", "k_truss", "Comm"]
 network_features_type_1 = ['src_betweenness', 'dst_betweenness', 'src_local_betweenness', 'dst_local_betweenness', 'src_degree', 'dst_degree', 'src_local_degree', 'dst_local_degree', 'src_eigenvector',
@@ -35,38 +102,6 @@ weak_columns = ['Flow Duration', 'Tot Bwd Pkts', 'TotLen Bwd Pkts', 'Fwd Pkt Len
                 'Flow IAT Max', 'Fwd IAT Mean', 'Bwd IAT Mean', 'Pkt Len Max', 'Pkt Len Mean', 'Pkt Size Avg', 'Fwd Byts/b Avg', 'Fwd Pkts/b Avg', 'Fwd Blk Rate Avg', 'Active Mean', 'Idle Mean']
 
 
-class DatasetInfo:
-    def __init__(
-            self,
-            name,
-            src_ip_col="Src IP",
-            dst_ip_col="Dst IP",
-            flow_id_col="Flow ID",
-            timestamp_col="Timestamp",
-            timestamp_format="%d/%m/%Y %I:%M:%S %p",
-            label_col="Label",
-            class_col="Attack",
-            drop_columns=["Flow ID", "Src IP", "Dst IP",
-                          "Timestamp", "Src Port", "Dst Port", "Attack"],
-            weak_columns=weak_columns,
-            cn_measures=[],
-            network_features=[]
-    ):
-
-        self.name = name
-        self.src_ip_col = src_ip_col
-        self.dst_ip_col = dst_ip_col
-        self.flow_id_col = flow_id_col
-        self.timestamp_col = timestamp_col
-        self.timestamp_format = timestamp_format
-        self.label_col = label_col
-        self.class_col = class_col
-        self.drop_columns = drop_columns
-        self.weak_columns = weak_columns
-        self.cn_measures = cn_measures
-        self.network_features = network_features
-
-
 datasets = [
     # 0
     DatasetInfo("cic_ton_iot",
@@ -77,14 +112,6 @@ datasets = [
                 ),
     # 1
     DatasetInfo("cic_ids_2017",
-                timestamp_format="mixed",
-                cn_measures=cn_measures_type_1,
-                network_features=network_features_type_1,
-                weak_columns=['Bwd PSH Flags', 'Bwd URG Flags', 'Fwd Byts/b Avg', 'Fwd Pkts/b Avg', 'Fwd Blk Rate Avg', 'Bwd Byts/b Avg', 'Bwd Pkts/b Avg', 'Bwd Blk Rate Avg', 'Fwd IAT Min',  'Idle Max', 'Flow IAT Mean',  'Protocol',   'Fwd Pkt Len Max', 'Flow IAT Max', 'Active Std', 'Subflow Fwd Pkts', 'Bwd Pkt Len Mean', 'Tot Bwd Pkts', 'Pkt Size Avg',
-                              'Subflow Bwd Pkts', 'Bwd IAT Std', 'Fwd IAT Mean', 'Fwd Pkt Len Std', 'Pkt Len Mean', 'Flow IAT Std', 'Fwd URG Flags', 'TotLen Bwd Pkts', 'Bwd Pkt Len Max',  'Pkt Len Var',  'Tot Fwd Pkts', 'Bwd IAT Mean', 'TotLen Fwd Pkts', 'Fwd PSH Flags', 'Idle Mean', 'Pkt Len Max', 'Flow Pkts/s', 'Flow Duration', 'Pkt Len Std', 'Fwd IAT Max',  'Fwd IAT Tot', 'RST Flag Cnt', 'Subflow Bwd Byts', 'Active Mean', 'Bwd Pkt Len Std', 'Fwd Pkt Len Mean']
-                ),
-    # 2
-    DatasetInfo("cic_ids_2017_di",
                 timestamp_format="mixed",
                 cn_measures=cn_measures_type_1,
                 network_features=network_features_type_1,
