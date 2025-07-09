@@ -1,0 +1,12 @@
+{
+    "client": "client_8",
+    "number_of_nodes": 4446,
+    "number_of_edges": 9485,
+    "max_degree": 1160,
+    "avg_degree": 4.266756635177688,
+    "transitivity": 0.00038795885781562115,
+    "density": 0.00047995012769152845,
+    "mixing_parameter": 0.4,
+    "modularity": 0.5090624627460222,
+    "communities": 13
+}
