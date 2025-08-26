@@ -84,5 +84,5 @@ def modularity_vitality(g, part):
     vitalities = (q0 - q1s).tolist()
     m = {}
     for i in range(len(vitalities)):
-        m[g.vs[i]['label']] = vitalities[i]
+        m[g.vs[i]['_nx_name']] = vitalities[i]
     return m
