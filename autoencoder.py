@@ -1,32 +1,29 @@
-import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
 
+class Autoencoder(nn.Module):
+    def __init__(self, input_dim, latent_dim=14):
+        super(Autoencoder, self).__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, latent_dim),
+            nn.ReLU()
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, input_dim),
+            nn.Sigmoid()
+        )
 
+    def forward(self, x):
+        encoded = self.encoder(x)
+        decoded = self.decoder(encoded)
+        return decoded
 
+    def encode(self, x):
+        return self.encoder(x)
 
-
-
-from tensorflow.keras import layers, Model
-from tensorflow.keras.optimizers import Adam
-
-
-# Define the autoencoder
-
-def build_autoencoder(input_dim, latent_dim=14):
-    # Encoder
-    encoder_input = layers.Input(shape=(input_dim,))
-    encoded = layers.Dense(latent_dim, activation='relu')(encoder_input)
-    
-    # Decoder
-    decoded = layers.Dense(input_dim, activation='sigmoid')(encoded)
-    
-    # Build models
-    autoencoder = Model(encoder_input, decoded)
-    encoder = Model(encoder_input, encoded)
-    
-    # Compile autoencoder
-    autoencoder.compile(optimizer=Adam(learning_rate=0.001), 
-                       loss='mse')  # MSE works better for normalized data
-    
-    return autoencoder, encoder
-
-
+def build_autoencoder(input_dim, latent_dim=14, learning_rate=0.001):
+    model = Autoencoder(input_dim, latent_dim)
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    loss_fn = nn.MSELoss()
+    return model, optimizer, loss_fn

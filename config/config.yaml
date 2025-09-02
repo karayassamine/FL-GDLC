@@ -7,4 +7,4 @@ config_fit: # a config that each client will receive (this is send by the server
 # lr: 0.01 # learning rate to use by the clients
 momentum: 0.9 # momentum used by SGD optimiser on the client side
 local_epochs: 3 # number of training epochs each clients does in a fit() round
-batch_size: 128
+batch_size: 16
